@@ -1,26 +1,20 @@
 {
   "expo": {
     "name": "Movie Finder",
-    "slug": "torrent-movie-downloader",
+    "slug": "movie-finder-torrent",
     "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "torrentmoviedownloader",
+    "scheme": "moviefindertorrent",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      // "adaptiveIcon": {
-      //   "backgroundColor": "#E6F4FE",
-      //   "foregroundImage": "./assets/images/android-icon-foreground.png",
-      //   "backgroundImage": "./assets/images/android-icon-background.png",
-      //   "monochromeImage": "./assets/images/android-icon-monochrome.png"
-      // },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.horizon.torrentmoviedownloader"
+      "package": "com.horizon.moviefindertorrent"
     },
     "web": {
       "output": "static",
@@ -48,7 +42,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "3695efcb-967e-49eb-8266-6706a7544aeb"
+        "projectId": "09b7f1cd-a41d-4545-b420-4b9ce7658f48"
       }
     }
   }
