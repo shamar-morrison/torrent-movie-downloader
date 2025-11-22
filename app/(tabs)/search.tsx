@@ -20,6 +20,7 @@ export default function SearchScreen() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [quality, setQuality] = useState<string>('All');
+  const [genre, setGenre] = useState<string>('all');
   const [debouncedQuery, setDebouncedQuery] = useState<string>('');
 
   React.useEffect(() => {
@@ -31,7 +32,7 @@ export default function SearchScreen() {
   }, [searchQuery]);
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['search', debouncedQuery, quality],
+    queryKey: ['search', debouncedQuery, quality, genre],
     queryFn: async () => {
       if (!debouncedQuery.trim()) {
         return null;
@@ -39,6 +40,7 @@ export default function SearchScreen() {
       const response = await moviesApi.getMovies({
         query_term: debouncedQuery,
         quality: quality !== 'All' ? quality : undefined,
+        genre: genre !== 'all' ? genre : undefined,
         limit: 50,
       });
       return response;
@@ -48,6 +50,7 @@ export default function SearchScreen() {
 
   const handleClearFilters = useCallback(() => {
     setQuality('All');
+    setGenre('all');
     setSearchQuery('');
   }, []);
 
@@ -111,6 +114,8 @@ export default function SearchScreen() {
       <SearchFilters
         quality={quality}
         onQualityChange={setQuality}
+        genre={genre}
+        onGenreChange={setGenre}
         onClearFilters={handleClearFilters}
       />
 

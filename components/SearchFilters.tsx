@@ -1,33 +1,67 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { GENRES, QUALITIES } from '@/constants/genres';
 import { ChevronDown } from 'lucide-react-native';
-import { QUALITIES } from '@/constants/genres';
+import React from 'react';
+import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface SearchFiltersProps {
   quality: string;
   onQualityChange: (quality: string) => void;
+  genre: string;
+  onGenreChange: (genre: string) => void;
   onClearFilters: () => void;
 }
 
-export default function SearchFilters({ quality, onQualityChange, onClearFilters }: SearchFiltersProps) {
+export default function SearchFilters({ 
+  quality, 
+  onQualityChange, 
+  genre,
+  onGenreChange,
+  onClearFilters 
+}: SearchFiltersProps) {
   const [showQuality, setShowQuality] = React.useState(false);
+  const [showGenre, setShowGenre] = React.useState(false);
 
   return (
     <View style={styles.container}>
       <View style={styles.filterRow}>
-        <Text style={styles.label}>Quality:</Text>
-        <TouchableOpacity
-          style={styles.dropdown}
-          onPress={() => setShowQuality(!showQuality)}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.dropdownText}>{quality}</Text>
-          <ChevronDown size={16} color="#999999" />
-        </TouchableOpacity>
+        <View style={styles.filterItem}>
+          <Text style={styles.label}>Quality:</Text>
+          <TouchableOpacity
+            style={styles.dropdown}
+            onPress={() => {
+              setShowQuality(!showQuality);
+              setShowGenre(false);
+            }}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.dropdownText}>{quality}</Text>
+            <ChevronDown size={16} color="#999999" />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.filterItem}>
+          <Text style={styles.label}>Genre:</Text>
+          <TouchableOpacity
+            style={styles.dropdown}
+            onPress={() => {
+              setShowGenre(!showGenre);
+              setShowQuality(false);
+            }}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.dropdownText}>
+              {GENRES.find(g => g.id === genre)?.label || 'All'}
+            </Text>
+            <ChevronDown size={16} color="#999999" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {showQuality && (
-        <View style={styles.optionsContainer}>
+        <ScrollView 
+          style={styles.optionsContainer}
+          nestedScrollEnabled={true}
+        >
           {QUALITIES.map((q) => (
             <TouchableOpacity
               key={q}
@@ -51,7 +85,38 @@ export default function SearchFilters({ quality, onQualityChange, onClearFilters
               </Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
+      )}
+
+      {showGenre && (
+        <ScrollView 
+          style={styles.optionsContainer}
+          nestedScrollEnabled={true}
+        >
+          {GENRES.map((g) => (
+            <TouchableOpacity
+              key={g.id}
+              style={[
+                styles.option,
+                genre === g.id && styles.optionActive,
+              ]}
+              onPress={() => {
+                onGenreChange(g.id);
+                setShowGenre(false);
+              }}
+              activeOpacity={0.7}
+            >
+              <Text
+                style={[
+                  styles.optionText,
+                  genre === g.id && styles.optionTextActive,
+                ]}
+              >
+                {g.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
       )}
 
       <TouchableOpacity
@@ -75,14 +140,19 @@ const styles = StyleSheet.create({
   filterRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 12,
     marginBottom: 12,
+  },
+  filterItem: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   label: {
     color: '#ffffff',
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600' as const,
-    marginRight: 12,
-    width: 70,
+    marginRight: 8,
   },
   dropdown: {
     flex: 1,
@@ -112,6 +182,7 @@ const styles = StyleSheet.create({
     borderColor: '#2a2a2a',
     marginBottom: 12,
     overflow: 'hidden',
+    maxHeight: 250,
   },
   option: {
     paddingHorizontal: 16,
