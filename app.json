@@ -2,7 +2,7 @@
   "expo": {
     "name": "torrent-movie-downloader",
     "slug": "torrent-movie-downloader",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "torrentmoviedownloader",
@@ -20,7 +20,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.edufocal.torrentmoviedownloader"
+      "package": "com.horizon.torrentmoviedownloader"
     },
     "web": {
       "output": "static",
