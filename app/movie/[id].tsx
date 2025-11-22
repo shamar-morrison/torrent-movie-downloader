@@ -1,19 +1,20 @@
+import { generateMagnetLink, moviesApi } from '@/services/api';
+import { useQuery } from '@tanstack/react-query';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { ArrowLeft, Calendar, Clock, Download, Play, Star } from 'lucide-react-native';
 import React from 'react';
 import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  Linking,
   ActivityIndicator,
+  Image,
+  Linking,
   Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { useQuery } from '@tanstack/react-query';
-import { Star, Clock, Calendar, Download, Play, ArrowLeft } from 'lucide-react-native';
-import { moviesApi, generateMagnetLink } from '@/services/api';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function MovieDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -73,7 +74,7 @@ export default function MovieDetailsScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
       
       <ScrollView style={styles.scrollView}>
@@ -174,7 +175,7 @@ export default function MovieDetailsScreen() {
           </View>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

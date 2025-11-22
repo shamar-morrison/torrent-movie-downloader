@@ -1,7 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Linking, Platform } from 'react-native';
 import { Stack } from 'expo-router';
-import { Film, Star, Github } from 'lucide-react-native';
+import { Film, Github, Star } from 'lucide-react-native';
+import React from 'react';
+import { Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function AboutScreen() {
   const handleRateApp = async () => {
@@ -23,7 +24,7 @@ export default function AboutScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <Stack.Screen 
         options={{ 
           title: 'About',
@@ -107,7 +108,7 @@ export default function AboutScreen() {
           </Text>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

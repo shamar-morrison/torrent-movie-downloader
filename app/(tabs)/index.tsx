@@ -1,19 +1,19 @@
-import React, { useState, useCallback } from 'react';
-import {
-  View,
-  FlatList,
-  StyleSheet,
-  ActivityIndicator,
-  RefreshControl,
-  Text,
-  Platform,
-} from 'react-native';
-import { Stack, useRouter } from 'expo-router';
-import { useQuery } from '@tanstack/react-query';
-import { moviesApi } from '@/services/api';
-import MovieCard from '@/components/MovieCard';
 import GenreTabs from '@/components/GenreTabs';
+import MovieCard from '@/components/MovieCard';
+import { moviesApi } from '@/services/api';
 import type { Movie } from '@/types/movie';
+import { useQuery } from '@tanstack/react-query';
+import { Stack, useRouter } from 'expo-router';
+import React, { useCallback, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -92,7 +92,7 @@ export default function HomeScreen() {
   }, [isLoading, isError]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <Stack.Screen 
         options={{ 
           title: 'Movies',
@@ -131,7 +131,7 @@ export default function HomeScreen() {
           }
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -1,19 +1,20 @@
-import React, { useState, useCallback } from 'react';
-import {
-  View,
-  TextInput,
-  FlatList,
-  StyleSheet,
-  ActivityIndicator,
-  Text,
-} from 'react-native';
-import { Stack, useRouter } from 'expo-router';
-import { useQuery } from '@tanstack/react-query';
-import { Search as SearchIcon } from 'lucide-react-native';
-import { moviesApi } from '@/services/api';
 import MovieCard from '@/components/MovieCard';
 import SearchFilters from '@/components/SearchFilters';
+import { moviesApi } from '@/services/api';
 import type { Movie } from '@/types/movie';
+import { useQuery } from '@tanstack/react-query';
+import { Stack, useRouter } from 'expo-router';
+import { Search as SearchIcon } from 'lucide-react-native';
+import React, { useCallback, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SearchScreen() {
   const router = useRouter();
@@ -80,7 +81,7 @@ export default function SearchScreen() {
   }, [isLoading, isError, debouncedQuery]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <Stack.Screen 
         options={{ 
           title: 'Search',
@@ -127,7 +128,7 @@ export default function SearchScreen() {
           ListEmptyComponent={renderEmpty}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 
