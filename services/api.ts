@@ -1,5 +1,5 @@
+import type { MovieDetailsResponse, MovieFilters, MovieListResponse, MovieSuggestionsResponse } from '@/types/movie';
 import axios from 'axios';
-import type { MovieListResponse, MovieDetailsResponse, MovieSuggestionsResponse, MovieFilters } from '@/types/movie';
 
 const API_BASE_URL = 'https://yts.lt/api/v2';
 
@@ -45,8 +45,6 @@ export const moviesApi = {
     const response = await api.get<MovieDetailsResponse>('/movie_details.json', {
       params: {
         movie_id: movieId,
-        with_images: true,
-        with_cast: true,
       },
     });
     return response.data;

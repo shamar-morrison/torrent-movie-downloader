@@ -256,6 +256,7 @@ const styles = StyleSheet.create({
   },
   metaRow: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 16,
     marginBottom: 12,
   },
