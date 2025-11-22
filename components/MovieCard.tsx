@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Platform } from 'react-native';
-import { Star } from 'lucide-react-native';
 import type { Movie } from '@/types/movie';
+import { Star } from 'lucide-react-native';
+import React from 'react';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface MovieCardProps {
   movie: Movie;
@@ -35,11 +35,13 @@ export default function MovieCard({ movie, onPress }: MovieCardProps) {
         
         {movie.torrents && movie.torrents.length > 0 && (
           <View style={styles.qualityBadges}>
-            {movie.torrents.slice(0, 3).map((torrent, index) => (
-              <View key={index} style={styles.qualityBadge}>
-                <Text style={styles.qualityText}>{torrent.quality}</Text>
-              </View>
-            ))}
+            {Array.from(new Set(movie.torrents.map(t => t.quality)))
+              .slice(0, 3)
+              .map((quality, index) => (
+                <View key={index} style={styles.qualityBadge}>
+                  <Text style={styles.qualityText}>{quality}</Text>
+                </View>
+              ))}
           </View>
         )}
       </View>

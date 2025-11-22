@@ -5,6 +5,7 @@ import { ArrowLeft, Calendar, Clock, Download, Play, Star } from 'lucide-react-n
 import React from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Image,
   Linking,
   Platform,
@@ -12,7 +13,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -35,9 +36,34 @@ export default function MovieDetailsScreen() {
   const handleDownload = async (hash: string, title: string) => {
     const magnetLink = generateMagnetLink(hash, title);
     try {
-      await Linking.openURL(magnetLink);
+      const canOpen = await Linking.canOpenURL(magnetLink);
+      if (canOpen) {
+        await Linking.openURL(magnetLink);
+      } else {
+        Alert.alert(
+          'No Torrent Client Found',
+          'You need a torrent client to download this movie. Would you like to download one?',
+          [
+            {
+              text: 'Cancel',
+              style: 'destructive',
+            },
+            {
+              text: 'Download App',
+              onPress: async () => {
+                if (Platform.OS === 'android') {
+                  await Linking.openURL('market://search?q=torrent client');
+                } else {
+                  await Linking.openURL('https://apps.apple.com/us/search?term=torrent%20client');
+                }
+              },
+            },
+          ]
+        );
+      }
     } catch (error) {
       console.error('Failed to open torrent client:', error);
+      Alert.alert('Error', 'An error occurred while trying to open the torrent client.');
     }
   };
 
