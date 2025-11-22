@@ -1,5 +1,5 @@
 import { Stack } from 'expo-router';
-import { Film, Github, Star } from 'lucide-react-native';
+import { Film, GlobeIcon, Star } from 'lucide-react-native';
 import React from 'react';
 import { Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -80,21 +80,21 @@ export default function AboutScreen() {
         </View>
 
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity 
+          {/* <TouchableOpacity 
             style={styles.button}
             onPress={handleRateApp}
             activeOpacity={0.7}
           >
             <Star size={20} color="#ffffff" />
             <Text style={styles.buttonText}>Rate This App</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity 
             style={[styles.button, styles.buttonSecondary]}
             onPress={handleOpenYTS}
             activeOpacity={0.7}
           >
-            <Github size={20} color="#ffffff" />
+            <GlobeIcon size={20} color="#ffffff" />
             <Text style={styles.buttonText}>Visit YTS.lt</Text>
           </TouchableOpacity>
         </View>

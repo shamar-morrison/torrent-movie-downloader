@@ -81,7 +81,7 @@ export default function HomeScreen() {
   }, [isFetching]);
 
   const renderEmpty = useCallback(() => {
-    if (isLoading) return null;
+    if (isLoading || isFetching) return null;
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyText}>
