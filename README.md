@@ -1,4 +1,7 @@
-# Torrent Movie Downloader
+
+<img width="1024" height="500" alt="feature graphic" src="https://github.com/user-attachments/assets/c4b100f8-17f9-4f17-8f6e-46db369dec95" />
+
+# Movie Finder (Torrent) Downloader
 
 A feature-rich React Native mobile application for browsing, searching, and downloading movies using the YTS API. Built with Expo and TypeScript.
 
