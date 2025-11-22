@@ -1,50 +1,51 @@
-# Welcome to your Expo app 👋
+# Torrent Movie Downloader
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A feature-rich React Native mobile application for browsing, searching, and downloading movies using the YTS API. Built with Expo and TypeScript.
 
-## Get started
+## 🚀 Features
 
-1. Install dependencies
+- **Browse Movies**: Explore a vast collection of movies with infinite scrolling.
+- **Genre Filtering**: Easily filter movies by genres like Action, Comedy, Drama, Sci-Fi, and more.
+- **Advanced Search**: Search for movies by title and refine results by quality (720p, 1080p, 4K) and rating.
+- **Movie Details**: View comprehensive movie information including synopsis, year, runtime, rating, and genres.
+- **Trailers**: Watch movie trailers directly within the app.
+- **Torrent Downloads**: Get magnet links for various qualities (720p, 1080p, 2160p) to download movies via your preferred torrent client.
+- **Modern UI**: Sleek, dark-themed interface designed for an immersive experience.
 
+## 🛠️ Tech Stack
+
+- **Framework**: [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Navigation**: [Expo Router](https://docs.expo.dev/router/introduction/)
+- **Data Fetching**: [TanStack Query (React Query)](https://tanstack.com/query/latest)
+- **HTTP Client**: [Axios](https://axios-http.com/)
+- **Icons**: [Lucide React Native](https://lucide.dev/guide/packages/lucide-react-native)
+- **Styling**: StyleSheet
+
+## 📱 Installation & Running
+
+1. **Clone the repository**
+
+2. **Install dependencies**
    ```bash
    npm install
    ```
 
-2. Start the app
-
+3. **Start the app**
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+4. **Run on device/emulator**
+   - Press `i` to open in iOS Simulator
+   - Press `a` to open in Android Emulator
+   - Scan the QR code with Expo Go app on your physical device
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🔌 API
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+This application uses the [YTS API](https://yts.lt/api) to fetch movie data and torrent information.
 
-## Get a fresh project
+## ⚠️ Disclaimer
 
-When you're ready, run:
+This app is for educational purposes only. Downloading copyrighted material without permission may be illegal in your country. Please use responsibly.
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
