@@ -73,7 +73,7 @@ export const RateAppPrompt = () => {
             // Add a small delay so it doesn't pop up immediately on launch
             setTimeout(() => {
                 setIsVisible(true);
-            }, 2000);
+            }, 4000);
         }
       }
     } catch (error) {
@@ -98,7 +98,7 @@ export const RateAppPrompt = () => {
     } else {
       // Fallback to store link
       const url = Platform.select({
-        ios: 'https://apps.apple.com/app/idYOUR_APP_ID', // Placeholder if they ever add iOS
+        ios: 'https://apps.apple.com/app/idYOUR_APP_ID', // Placeholder if we ever add iOS
         android: `market://details?id=${ANDROID_PACKAGE_NAME}`,
         default: `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE_NAME}`,
       });
@@ -149,7 +149,7 @@ export const RateAppPrompt = () => {
               </View>
               <Text style={styles.title}>Enjoying the app?</Text>
               <Text style={styles.description}>
-                Are you enjoying using Movie Downloader?
+                Are you enjoying using Movie Finder?
               </Text>
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
@@ -214,8 +214,7 @@ export const RateAppPrompt = () => {
                   style={[styles.button, styles.primaryButton, styles.fullWidth]}
                   onPress={() => {
                       setIsVisible(false);
-                      // Optional: Navigate to feedback screen or open email
-                      Linking.openURL('mailto:support@example.com?subject=App Feedback');
+                      Linking.openURL('mailto:shamar.morrison2000@gmail.com?subject=App Feedback - Movie Finder');
                   }}
                 >
                   <Text style={styles.primaryButtonText}>Give Feedback</Text>
