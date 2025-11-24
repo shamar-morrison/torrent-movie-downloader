@@ -1,3 +1,4 @@
+import { RateAppPrompt } from "@/components/RateAppPrompt";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -41,6 +42,7 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <RootLayoutNav />
+        <RateAppPrompt />
       </GestureHandlerRootView>
     </QueryClientProvider>
   );
