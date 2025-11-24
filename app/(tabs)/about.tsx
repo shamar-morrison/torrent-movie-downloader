@@ -1,5 +1,5 @@
 import { Stack } from 'expo-router';
-import { Film, GlobeIcon, Star } from 'lucide-react-native';
+import { Film, Star } from 'lucide-react-native';
 import React from 'react';
 import { Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,20 +7,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function AboutScreen() {
   const handleRateApp = async () => {
     const appId = 'YOUR_APP_ID';
+    const packageName = 'com.horizon.moviefindertorrent';
     
     if (Platform.OS === 'ios') {
       const url = `https://apps.apple.com/app/id${appId}`;
       await Linking.openURL(url);
     } else if (Platform.OS === 'android') {
-      const url = `https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME`;
+      const url = `https://play.google.com/store/apps/details?id=${packageName}`;
       await Linking.openURL(url);
     } else {
       console.log('Rating not available on web');
     }
-  };
-
-  const handleOpenYTS = async () => {
-    await Linking.openURL('https://yts.lt');
   };
 
   return (
@@ -80,32 +77,14 @@ export default function AboutScreen() {
         </View>
 
         <View style={styles.buttonsContainer}>
-          {/* <TouchableOpacity 
+          <TouchableOpacity 
             style={styles.button}
             onPress={handleRateApp}
             activeOpacity={0.7}
           >
             <Star size={20} color="#ffffff" />
             <Text style={styles.buttonText}>Rate This App</Text>
-          </TouchableOpacity> */}
-
-          <TouchableOpacity 
-            style={[styles.button, styles.buttonSecondary]}
-            onPress={handleOpenYTS}
-            activeOpacity={0.7}
-          >
-            <GlobeIcon size={20} color="#ffffff" />
-            <Text style={styles.buttonText}>Visit YTS.lt</Text>
           </TouchableOpacity>
-        </View>
-
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>
-            Powered by YTS API
-          </Text>
-          <Text style={styles.footerTextSmall}>
-            All content is provided by YTS.lt
-          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
