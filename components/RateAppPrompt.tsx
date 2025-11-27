@@ -26,7 +26,7 @@ const STORAGE_KEYS = {
 const ANDROID_PACKAGE_NAME = 'com.horizon.moviefindertorrent';
 
 export const RateAppPrompt = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [step, setStep] = useState<'enjoying' | 'rating' | 'feedback'>('enjoying');
 
   useEffect(() => {
@@ -93,21 +93,29 @@ export const RateAppPrompt = () => {
     setIsVisible(false);
     await AsyncStorage.setItem(STORAGE_KEYS.HAS_RATED, 'true');
 
-    if (await StoreReview.hasAction()) {
-      StoreReview.requestReview();
-    } else {
-      // Fallback to store link
+    const openStoreUrl = () => {
       const url = Platform.select({
-        ios: 'https://apps.apple.com/app/idYOUR_APP_ID', // Placeholder if we ever add iOS
+        ios: 'https://apps.apple.com/app/idYOUR_APP_ID', // Placeholder if they ever add iOS
         android: `market://details?id=${ANDROID_PACKAGE_NAME}`,
         default: `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE_NAME}`,
       });
-      
+
       if (url) {
-          Linking.openURL(url).catch(() => {
-              Alert.alert('Error', 'Could not open store link.');
-          });
+        Linking.openURL(url).catch(() => {
+          Alert.alert('Error', 'Could not open store link.');
+        });
       }
+    };
+
+    try {
+      if (await StoreReview.hasAction()) {
+        await StoreReview.requestReview();
+      } else {
+        openStoreUrl();
+      }
+    } catch (error) {
+      console.log('StoreReview failed, falling back to URL:', error);
+      openStoreUrl();
     }
   };
 
