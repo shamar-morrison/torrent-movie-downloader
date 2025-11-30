@@ -26,7 +26,7 @@ const STORAGE_KEYS = {
 const ANDROID_PACKAGE_NAME = 'com.horizon.moviefindertorrent';
 
 export const RateAppPrompt = () => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(__DEV__ ? true : false); 
   const [step, setStep] = useState<'enjoying' | 'rating' | 'feedback'>('enjoying');
 
   useEffect(() => {
@@ -95,7 +95,6 @@ export const RateAppPrompt = () => {
 
     const openStoreUrl = () => {
       const url = Platform.select({
-        ios: 'https://apps.apple.com/app/idYOUR_APP_ID', // Placeholder if they ever add iOS
         android: `market://details?id=${ANDROID_PACKAGE_NAME}`,
         default: `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE_NAME}`,
       });
