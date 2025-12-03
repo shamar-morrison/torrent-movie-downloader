@@ -30,56 +30,72 @@ export const RateAppPrompt = () => {
   const [step, setStep] = useState<'enjoying' | 'rating' | 'feedback'>('enjoying');
 
   useEffect(() => {
-    checkShowPrompt();
+    let timer: number | null = null;
+    
+    const checkShowPromptWithCleanup = async () => {
+      try {
+        const [hasRated, hasDeclined, lastReminded, installDate, launchCount] =
+          await Promise.all([
+            AsyncStorage.getItem(STORAGE_KEYS.HAS_RATED),
+            AsyncStorage.getItem(STORAGE_KEYS.HAS_DECLINED),
+            AsyncStorage.getItem(STORAGE_KEYS.LAST_REMINDED),
+            AsyncStorage.getItem(STORAGE_KEYS.INSTALL_DATE),
+            AsyncStorage.getItem(STORAGE_KEYS.LAUNCH_COUNT),
+          ]);
+
+        if (hasRated === 'true' || hasDeclined === 'true') return;
+
+        const parsedLaunchCount = launchCount ? parseInt(launchCount, 10) : 0;
+        const validatedLaunchCount = Number.isNaN(parsedLaunchCount) ? 0 : parsedLaunchCount;
+        const currentLaunchCount = validatedLaunchCount + 1;
+        await AsyncStorage.setItem(
+          STORAGE_KEYS.LAUNCH_COUNT,
+          currentLaunchCount.toString()
+        );
+
+        const now = Date.now();
+        if (!installDate) {
+          await AsyncStorage.setItem(STORAGE_KEYS.INSTALL_DATE, now.toString());
+          return;
+        }
+
+        // Criteria:
+        // 1. Launched at least 5 times
+        // 2. Installed at least 2 days ago
+        // 3. Not reminded in the last 7 days
+        const parsedInstallDate = parseInt(installDate, 10);
+        const validatedInstallDate = Number.isNaN(parsedInstallDate) ? 0 : parsedInstallDate;
+        const daysSinceInstall =
+          (now - validatedInstallDate) / (1000 * 60 * 60 * 24);
+        const parsedLastReminded = lastReminded ? parseInt(lastReminded, 10) : 0;
+        const validatedLastReminded = Number.isNaN(parsedLastReminded) ? 0 : parsedLastReminded;
+        const daysSinceReminded = lastReminded
+          ? (now - validatedLastReminded) / (1000 * 60 * 60 * 24)
+          : null;
+
+        if (currentLaunchCount >= 5 && daysSinceInstall >= 2) {
+          if (daysSinceReminded === null || daysSinceReminded >= 7) {
+              // Add a small delay so it doesn't pop up immediately on launch
+              timer = setTimeout(() => {
+                  setIsVisible(true);
+              }, 4000);
+          }
+        }
+      } catch (error) {
+        console.error('Error checking rate app prompt:', error);
+      }
+    };
+    
+    checkShowPromptWithCleanup();
+    
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
   }, []);
 
-  const checkShowPrompt = async () => {
-    try {
-      const [hasRated, hasDeclined, lastReminded, installDate, launchCount] =
-        await Promise.all([
-          AsyncStorage.getItem(STORAGE_KEYS.HAS_RATED),
-          AsyncStorage.getItem(STORAGE_KEYS.HAS_DECLINED),
-          AsyncStorage.getItem(STORAGE_KEYS.LAST_REMINDED),
-          AsyncStorage.getItem(STORAGE_KEYS.INSTALL_DATE),
-          AsyncStorage.getItem(STORAGE_KEYS.LAUNCH_COUNT),
-        ]);
 
-      if (hasRated === 'true' || hasDeclined === 'true') return;
-
-      const currentLaunchCount = launchCount ? parseInt(launchCount, 10) + 1 : 1;
-      await AsyncStorage.setItem(
-        STORAGE_KEYS.LAUNCH_COUNT,
-        currentLaunchCount.toString()
-      );
-
-      const now = Date.now();
-      if (!installDate) {
-        await AsyncStorage.setItem(STORAGE_KEYS.INSTALL_DATE, now.toString());
-        return;
-      }
-
-      // Criteria:
-      // 1. Launched at least 5 times
-      // 2. Installed at least 2 days ago
-      // 3. Not reminded in the last 7 days
-      const daysSinceInstall =
-        (now - parseInt(installDate, 10)) / (1000 * 60 * 60 * 24);
-      const daysSinceReminded = lastReminded
-        ? (now - parseInt(lastReminded, 10)) / (1000 * 60 * 60 * 24)
-        : null;
-
-      if (currentLaunchCount >= 5 && daysSinceInstall >= 2) {
-        if (daysSinceReminded === null || daysSinceReminded >= 7) {
-            // Add a small delay so it doesn't pop up immediately on launch
-            setTimeout(() => {
-                setIsVisible(true);
-            }, 4000);
-        }
-      }
-    } catch (error) {
-      console.error('Error checking rate app prompt:', error);
-    }
-  };
 
   const handleEnjoyingResponse = (isEnjoying: boolean) => {
     if (isEnjoying) {
@@ -128,10 +144,10 @@ export const RateAppPrompt = () => {
     await AsyncStorage.setItem(STORAGE_KEYS.HAS_DECLINED, 'true');
   };
   
-  const handleClose = () => {
+  const handleClose = async () => {
       // Treat closing via backdrop/X as "Remind Later" to be safe, or just close without saving state (so it checks again next time)
       // Let's treat it as "Remind Later" to avoid annoying them next launch if they just dismissed it.
-      handleRemindLater();
+      await handleRemindLater();
   }
 
   if (!isVisible) return null;
