@@ -26,7 +26,7 @@ const STORAGE_KEYS = {
 const ANDROID_PACKAGE_NAME = 'com.horizon.moviefindertorrent';
 
 export const RateAppPrompt = () => {
-  const [isVisible, setIsVisible] = useState(__DEV__ ? true : false); 
+  const [isVisible, setIsVisible] = useState(false); 
   const [step, setStep] = useState<'enjoying' | 'rating' | 'feedback'>('enjoying');
 
   useEffect(() => {
