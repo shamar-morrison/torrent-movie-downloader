@@ -1,10 +1,25 @@
+import * as Clipboard from 'expo-clipboard';
 import { Stack } from 'expo-router';
-import { Film, Star } from 'lucide-react-native';
-import React from 'react';
-import { Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Check, Copy, Film, Heart, Star, X } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { Linking, Modal, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+const WALLET_ADDRESSES = {
+  BTC: '38A7ex8s75Gmngv5L9vSVko1Ate6avqqiG',
+  ETH: '0xed72c4db6c322dc5f2263e2ac310b1b6aabf4d23',
+};
+
 export default function AboutScreen() {
+  const [isDonateModalVisible, setIsDonateModalVisible] = useState(false);
+  const [copiedAddress, setCopiedAddress] = useState<string | null>(null);
+
+  const handleCopyAddress = async (type: 'BTC' | 'ETH') => {
+    await Clipboard.setStringAsync(WALLET_ADDRESSES[type]);
+    setCopiedAddress(type);
+    setTimeout(() => setCopiedAddress(null), 2000);
+  };
+
   const handleRateApp = async () => {
     const appId = 'YOUR_APP_ID';
     const packageName = 'com.horizon.moviefindertorrent';
@@ -85,8 +100,101 @@ export default function AboutScreen() {
             <Star size={20} color="#ffffff" />
             <Text style={styles.buttonText}>Rate This App</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={[styles.button, styles.buttonSecondary]}
+            onPress={() => setIsDonateModalVisible(true)}
+            activeOpacity={0.7}
+          >
+            <Heart size={20} color="#e50914" />
+            <Text style={styles.buttonText}>Support Development</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
+
+      {/* Donate Modal */}
+      <Modal
+        visible={isDonateModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setIsDonateModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Support Development</Text>
+              <TouchableOpacity 
+                onPress={() => setIsDonateModalVisible(false)}
+                style={styles.closeButton}
+              >
+                <X size={24} color="#ffffff" />
+              </TouchableOpacity>
+            </View>
+
+            <Text style={styles.modalDescription}>
+              If you enjoy the app and want to support development and future features, please consider donating. Your support means a lot! 🙏
+            </Text>
+
+            <View style={styles.walletContainer}>
+              {/* Bitcoin */}
+              <View style={styles.walletItem}>
+                <View style={styles.walletHeader}>
+                  <View style={[styles.cryptoBadge, { backgroundColor: '#F7931A20' }]}>
+                    <Text style={[styles.cryptoSymbol, { color: '#F7931A' }]}>₿</Text>
+                  </View>
+                  <Text style={styles.cryptoName}>Bitcoin (BTC)</Text>
+                </View>
+                <View style={styles.addressRow}>
+                  <Text style={styles.walletAddress} numberOfLines={1} ellipsizeMode="middle">
+                    {WALLET_ADDRESSES.BTC}
+                  </Text>
+                  <TouchableOpacity 
+                    style={styles.copyButton}
+                    onPress={() => handleCopyAddress('BTC')}
+                  >
+                    {copiedAddress === 'BTC' ? (
+                      <Check size={20} color="#4ade80" />
+                    ) : (
+                      <Copy size={20} color="#ffffff" />
+                    )}
+                  </TouchableOpacity>
+                </View>
+                {copiedAddress === 'BTC' && (
+                  <Text style={styles.copiedText}>Copied to clipboard!</Text>
+                )}
+              </View>
+
+              {/* Ethereum */}
+              <View style={styles.walletItem}>
+                <View style={styles.walletHeader}>
+                  <View style={[styles.cryptoBadge, { backgroundColor: '#627EEA20' }]}>
+                    <Text style={[styles.cryptoSymbol, { color: '#627EEA' }]}>Ξ</Text>
+                  </View>
+                  <Text style={styles.cryptoName}>Ethereum (ETH)</Text>
+                </View>
+                <View style={styles.addressRow}>
+                  <Text style={styles.walletAddress} numberOfLines={1} ellipsizeMode="middle">
+                    {WALLET_ADDRESSES.ETH}
+                  </Text>
+                  <TouchableOpacity 
+                    style={styles.copyButton}
+                    onPress={() => handleCopyAddress('ETH')}
+                  >
+                    {copiedAddress === 'ETH' ? (
+                      <Check size={20} color="#4ade80" />
+                    ) : (
+                      <Copy size={20} color="#ffffff" />
+                    )}
+                  </TouchableOpacity>
+                </View>
+                {copiedAddress === 'ETH' && (
+                  <Text style={styles.copiedText}>Copied to clipboard!</Text>
+                )}
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -199,5 +307,98 @@ const styles = StyleSheet.create({
   footerTextSmall: {
     color: '#666666',
     fontSize: 12,
+  },
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  modalContent: {
+    backgroundColor: '#1e1e1e',
+    borderRadius: 16,
+    padding: 24,
+    width: '100%',
+    maxWidth: 400,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  modalTitle: {
+    color: '#ffffff',
+    fontSize: 20,
+    fontWeight: '700' as const,
+  },
+  closeButton: {
+    padding: 4,
+  },
+  modalDescription: {
+    color: '#cccccc',
+    fontSize: 15,
+    lineHeight: 22,
+    marginBottom: 24,
+  },
+  walletContainer: {
+    gap: 16,
+  },
+  walletItem: {
+    backgroundColor: '#2a2a2a',
+    borderRadius: 12,
+    padding: 16,
+  },
+  walletHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 12,
+  },
+  cryptoBadge: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cryptoSymbol: {
+    fontSize: 20,
+    fontWeight: '700' as const,
+  },
+  cryptoName: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600' as const,
+  },
+  addressRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1e1e1e',
+    borderRadius: 8,
+    paddingLeft: 12,
+    paddingRight: 4,
+    paddingVertical: 4,
+  },
+  walletAddress: {
+    color: '#999999',
+    fontSize: 13,
+    flex: 1,
+    fontFamily: 'monospace',
+  },
+  copyButton: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+  copiedText: {
+    color: '#4ade80',
+    fontSize: 12,
+    marginTop: 8,
+    textAlign: 'center',
   },
 });
