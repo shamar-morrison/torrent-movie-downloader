@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "134756491064",
+    "project_id": "movie-finder-2025",
+    "storage_bucket": "movie-finder-2025.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134756491064:android:d4e71e3b1f8ae4806c6bcd",
+        "android_client_info": {
+          "package_name": "com.horizon.moviefindertorrent"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCntP1ddMxu8dE1fURKyCu_gH5hDgMtaiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

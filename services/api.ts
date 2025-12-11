@@ -11,6 +11,10 @@ const api = axios.create({
   },
 });
 
+export const updateApiBaseUrl = (url: string) => {
+  api.defaults.baseURL = url;
+};
+
 export const moviesApi = {
   async getMovies(filters: MovieFilters = {}): Promise<MovieListResponse> {
     const params: Record<string, any> = {

@@ -14,7 +14,8 @@
     "android": {
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.horizon.moviefindertorrent"
+      "package": "com.horizon.moviefindertorrent",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "output": "static",
@@ -23,6 +24,15 @@
     "plugins": [
       "expo-router",
       "./plugins/withAndroidQueries",
+      "@react-native-firebase/app",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
       [
         "expo-splash-screen",
         {

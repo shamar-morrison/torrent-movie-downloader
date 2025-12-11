@@ -1,4 +1,5 @@
 import { RateAppPrompt } from "@/components/RateAppPrompt";
+import { initRemoteConfig } from "@/services/remoteConfig";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -35,7 +36,18 @@ function RootLayoutNav() {
 
 export default function RootLayout() {
   useEffect(() => {
-    SplashScreen.hideAsync();
+    // Initialize Remote Config
+    const initConfig = async () => {
+      try {
+        await initRemoteConfig();
+      } catch (error) {
+        console.error("Failed to init remote config", error);
+      } finally {
+        SplashScreen.hideAsync();
+      }
+    };
+    
+    initConfig();
   }, []);
 
   return (
