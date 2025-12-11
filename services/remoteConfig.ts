@@ -1,24 +1,30 @@
-import remoteConfig from '@react-native-firebase/remote-config';
-import { updateApiBaseUrl } from './api';
+import {
+  fetchAndActivate,
+  getRemoteConfig,
+  getValue,
+  setConfigSettings,
+  setDefaults
+} from '@react-native-firebase/remote-config';
+import { API_BASE_URL, updateApiBaseUrl } from './api';
 
 // Default configuration values
 const defaultValues = {
-  api_base_url: 'https://yts.lt/api/v2',
+  api_base_url: API_BASE_URL,
 };
 
 export const initRemoteConfig = async () => {
   try {
-    // Set default values
-    await remoteConfig().setDefaults(defaultValues);
+    const remoteConfig = getRemoteConfig();
 
-    // Fetch and activate
+    // Set default values
+    await setDefaults(remoteConfig, defaultValues);
+
     // Set minimumFetchIntervalMillis to 0 during development for testing
-    // In production, use a higher value (e.g., 12 hours = 43200000)
-    await remoteConfig().setConfigSettings({
+    await setConfigSettings(remoteConfig, {
       minimumFetchIntervalMillis: __DEV__ ? 0 : 3600000,
     });
 
-    const fetched = await remoteConfig().fetchAndActivate();
+    const fetched = await fetchAndActivate(remoteConfig);
     
     if (fetched) {
       console.log('Remote config fetched and activated');
@@ -27,7 +33,7 @@ export const initRemoteConfig = async () => {
     }
 
     // Get the value
-    const apiBaseUrl = remoteConfig().getValue('api_base_url').asString();
+    const apiBaseUrl = getValue(remoteConfig, 'api_base_url').asString();
     
     // Update the API service
     updateApiBaseUrl(apiBaseUrl);
