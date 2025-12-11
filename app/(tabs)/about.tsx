@@ -15,9 +15,13 @@ export default function AboutScreen() {
   const [copiedAddress, setCopiedAddress] = useState<string | null>(null);
 
   const handleCopyAddress = async (type: 'BTC' | 'ETH') => {
-    await Clipboard.setStringAsync(WALLET_ADDRESSES[type]);
-    setCopiedAddress(type);
-    setTimeout(() => setCopiedAddress(null), 2000);
+    try {
+      await Clipboard.setStringAsync(WALLET_ADDRESSES[type]);
+      setCopiedAddress(type);
+      setTimeout(() => setCopiedAddress(null), 2000);
+    } catch (error) {
+      console.error('Failed to copy address:', error);
+    }
   };
 
   const handleRateApp = async () => {
