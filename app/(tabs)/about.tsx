@@ -123,8 +123,12 @@ export default function AboutScreen() {
         animationType="fade"
         onRequestClose={() => setIsDonateModalVisible(false)}
       >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
+        <TouchableOpacity 
+          style={styles.modalOverlay} 
+          activeOpacity={1} 
+          onPress={() => setIsDonateModalVisible(false)}
+        >
+          <TouchableOpacity activeOpacity={1} style={styles.modalContent}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Support Development</Text>
               <TouchableOpacity 
@@ -196,8 +200,8 @@ export default function AboutScreen() {
                 )}
               </View>
             </View>
-          </View>
-        </View>
+          </TouchableOpacity>
+        </TouchableOpacity>
       </Modal>
     </SafeAreaView>
   );
