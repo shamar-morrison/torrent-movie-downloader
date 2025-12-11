@@ -130,7 +130,7 @@ export default function AboutScreen() {
         >
           <TouchableOpacity activeOpacity={1} style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Support Development</Text>
+              <Text style={styles.modalTitle}>Support Development 🙏</Text>
               <TouchableOpacity 
                 onPress={() => setIsDonateModalVisible(false)}
                 style={styles.closeButton}
@@ -140,7 +140,7 @@ export default function AboutScreen() {
             </View>
 
             <Text style={styles.modalDescription}>
-              If you enjoy the app and want to support development and future features, please consider donating. Your support means a lot! 🙏
+              If you enjoy the app and want to support development and future features, please consider donating. Your support means a lot!
             </Text>
 
             <View style={styles.walletContainer}>
