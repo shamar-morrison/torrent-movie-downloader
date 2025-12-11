@@ -9,12 +9,15 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.horizon.moviefindertorrent",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.horizon.moviefindertorrent"
+      "package": "com.horizon.moviefindertorrent",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "output": "static",
@@ -23,6 +26,15 @@
     "plugins": [
       "expo-router",
       "./plugins/withAndroidQueries",
+      "@react-native-firebase/app",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
       [
         "expo-splash-screen",
         {

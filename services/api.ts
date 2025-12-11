@@ -1,7 +1,7 @@
 import type { MovieDetailsResponse, MovieFilters, MovieListResponse, MovieSuggestionsResponse } from '@/types/movie';
 import axios from 'axios';
 
-const API_BASE_URL = 'https://yts.lt/api/v2';
+export const API_BASE_URL = 'https://yts.lt/api/v2';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -10,6 +10,10 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+export const updateApiBaseUrl = (url: string) => {
+  api.defaults.baseURL = url;
+};
 
 export const moviesApi = {
   async getMovies(filters: MovieFilters = {}): Promise<MovieListResponse> {
