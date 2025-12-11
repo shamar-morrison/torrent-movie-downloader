@@ -33,7 +33,9 @@ export const initRemoteConfig = async () => {
     }
 
     // Get the value
-    const apiBaseUrl = getValue(remoteConfig, 'api_base_url').asString();
+    const value = getValue(remoteConfig, 'api_base_url').asString();
+    const apiBaseUrl = value || defaultValues.api_base_url;
+
     
     // Update the API service
     updateApiBaseUrl(apiBaseUrl);
